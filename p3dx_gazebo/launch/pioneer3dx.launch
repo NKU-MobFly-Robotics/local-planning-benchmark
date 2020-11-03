@@ -1,0 +1,31 @@
+<launch>
+
+	<!-- these are the arguments you can pass this launch file, for example paused:=true -->
+	<arg name="paused" default="false" />
+	<arg name="use_sim_time" default="true" />
+	<arg name="gui" default="true" />
+	<arg name="headless" default="false" />
+	<arg name="debug" default="false" />
+	<arg name="world" default="office02" />
+
+	<!-- We resume the logic in empty_world.launch, changing only the name of 
+		the world to be launched -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find gazebo_world)/world/$(arg world).world" />
+		<arg name="debug" value="$(arg debug)" />
+		<arg name="gui" value="$(arg gui)" />
+		<arg name="paused" value="$(arg paused)" />
+		<arg name="use_sim_time" value="$(arg use_sim_time)" />
+		<arg name="headless" value="$(arg headless)" />
+	</include>
+
+	<!-- Robot with diff drive -->
+	<include file="$(find p3dx_gazebo)/launch/pioneer3dx.gazebo.launch">
+		<arg name="robot_name" value="/" />
+		<arg name="robot_position" value="-x 0.0 -y -0.5 -z 0.01 -R 0 -P 0 -Y +1.57" />
+	</include>
+
+	<!-- RVIZ -->
+	<!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find p3dx_gazebo)/launch/pioneer3dx.rviz" /> -->
+
+</launch>
