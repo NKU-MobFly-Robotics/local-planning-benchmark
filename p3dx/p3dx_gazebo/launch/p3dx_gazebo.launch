@@ -2,11 +2,24 @@
 
 <launch>
 
-  <include file="$(find gazebo_ros)/launch/willowgarage_world.launch"/>
+  <!-- Parameters -->
+  <arg name="world_name" value="$(find gazebo_world)/world/office02.world"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <!-- Running gazebo simulation platform -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
 
   <include file="$(find p3dx_gazebo)/launch/spawn_p3dx.launch"/>
-
-  <!-- RVIZ -->
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find p3dx_gazebo)/launch/pioneer3dx.rviz" />
 
 </launch>
