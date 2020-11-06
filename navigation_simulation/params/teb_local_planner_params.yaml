@@ -1,7 +1,7 @@
 TebLocalPlannerROS:
   odom_topic: odom
 
-# Trajectory
+  # Trajectory
   teb_autosize: True
   dt_ref: 0.3
   dt_hysteresis: 0.1
@@ -15,25 +15,25 @@ TebLocalPlannerROS:
   feasibility_check_no_poses: 5
   publish_feedback: False
 
-# Robot
-  max_vel_x: 0.55   # 0.4
-  max_vel_x_backwards: 0.2
+  # Robot
+  max_vel_x: 0.55 # m/s
+  max_vel_x_backwards: 0.2 # m/s
   max_vel_y: 0.0
-  max_vel_theta: 0.3
-  acc_lim_x: 0.3
-  acc_lim_theta: 0.5
+  max_vel_theta: 0.3 # rad/s
+  acc_lim_x: 0.3 # m/s^2
+  acc_lim_theta: 0.5 # rad/s^2
   min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
 
   footprint_model:
     type: "point"
 
-# GoalTolerance
+  # GoalTolerance
   xy_goal_tolerance: 0.2
   yaw_goal_tolerance: 0.1
   free_goal_vel: False
   complete_global_plan: True
 
-# Obstacles
+  # Obstacles
   min_obstacle_dist: 0.25 # This value must also include our robot radius, since footprint_model is set to "point".
   inflation_dist: 0.6
   include_costmap_obstacles: True
@@ -47,7 +47,7 @@ TebLocalPlannerROS:
   costmap_converter_spin_thread: True
   costmap_converter_rate: 5
 
-# Optimization
+  # Optimization
   no_inner_iterations: 5
   no_outer_iterations: 4
   optimization_activate: True
@@ -70,7 +70,7 @@ TebLocalPlannerROS:
   weight_viapoint: 1
   weight_adapt_factor: 2
 
-# Homotopy Class Planner
+  # Homotopy Class Planner
   enable_homotopy_class_planning: False
   enable_multithreading: True
   max_number_classes: 4
@@ -92,7 +92,7 @@ TebLocalPlannerROS:
   visualize_hc_graph: False
   visualize_with_time_as_z_axis_scale: False
 
-# Recovery
+  # Recovery
   shrink_horizon_backup: True
   shrink_horizon_min_duration: 10
   oscillation_recovery: True
