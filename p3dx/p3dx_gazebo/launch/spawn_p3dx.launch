@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="robot_namespace" default="/"/>
+
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+  <arg name="yaw" default="1.570796"/>
+
+  <!-- Load robot description -->
+  <include file="$(find p3dx_description)/launch/description.launch" />
+
+  <!-- Spawn robot in gazebo -->
+  <node name="spawn_p3dx_model" pkg="gazebo_ros" type="spawn_model" args="-x $(arg x)
+      -y $(arg y)
+      -z $(arg z)
+      -Y $(arg yaw)
+      -unpause
+      -urdf
+      -param robot_description
+      -model $(arg robot_namespace)" />
+
+  <include file="$(find p3dx_control)/launch/control.launch"/>
+
+</launch>
