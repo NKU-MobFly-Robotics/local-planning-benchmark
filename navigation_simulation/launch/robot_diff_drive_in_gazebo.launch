@@ -1,0 +1,45 @@
+<!-- 
+  Simulate a differential drive robot with the teb_local_planner in gazebo:
+  - gazebo
+  - map_server
+  - move_base
+  - static map
+  - fake localization
+  - rviz view
+ -->
+<launch>
+
+	<!--  ************** Global Parameters ***************  -->
+	<param name="/use_sim_time" value="true"/>
+
+	<!--  ************** Navigation ***************  -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		<rosparam file="$(find navigation_simulation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find navigation_simulation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find navigation_simulation)/params/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find navigation_simulation)/params/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find navigation_simulation)/params/teb_local_planner_params.yaml" command="load" />
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+
+		<remap from="/cmd_vel" to="/RosAria/cmd_vel"/>
+		<remap from="/odom" to="/RosAria/odom"/>
+	</node>
+
+	<!--  ****** Maps *****  -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find navigation_simulation)/maps/office02/map.yaml" output="screen">
+		<param name="frame_id" value="map"/>
+	</node>
+
+	<node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
+
+	<!--  **************** Visualisation ****************  -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigation_simulation)/launch/rviz_navigation.rviz"/>
+
+</launch>

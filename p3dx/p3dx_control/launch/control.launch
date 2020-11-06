@@ -5,7 +5,7 @@
   <rosparam command="load" file="$(find p3dx_control)/config/control.yaml" />
 
   <!-- Spawn controllers -->
-  <node name="base_controller_spawner" pkg="controller_manager" type="spawner" args="p3dx_joint_publisher RosAria"/>
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="p3dx_joint_publisher RosAria"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
