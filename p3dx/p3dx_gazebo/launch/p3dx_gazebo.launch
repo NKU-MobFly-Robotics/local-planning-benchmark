@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find gazebo_ros)/launch/willowgarage_world.launch"/>
+
+  <include file="$(find p3dx_gazebo)/launch/spawn_p3dx.launch"/>
+
+  <!-- RVIZ -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find p3dx_gazebo)/launch/pioneer3dx.rviz" />
+
+</launch>

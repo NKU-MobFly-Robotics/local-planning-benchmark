@@ -1,0 +1,48 @@
+p3dx_joint_publisher:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 50
+
+RosAria:
+  type: "diff_drive_controller/DiffDriveController"
+  left_wheel: "left_hub_joint"
+  right_wheel: "right_hub_joint"
+  publish_rate: 10
+  pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  cmd_vel_timeout: 0.25
+  velocity_rolling_window_size: 2
+
+  # Base frame_id
+  base_frame_id: base_link
+
+  # Wheel separation and diameter. These are both optional.
+  # diff_drive_controller will attempt to read either one or both from the
+  # URDF if not specified as a parameter
+  # wheel_separation : 3.0
+  wheel_radius: 0.09
+
+  # Odometry fused with IMU is published by robot_localization, so
+  # no need to publish a TF based on encoders alone.
+  enable_odom_tf: true
+
+  # p3dx hardware provides wheel velocities
+  estimate_velocity_from_position: false
+
+  # Wheel separation and radius multipliers
+  wheel_separation_multiplier: 1.0 # default: 1.0
+  wheel_radius_multiplier: 1.0 # default: 1.0
+
+  # Velocity and acceleration limits
+  # Whenever a min_* is unspecified, default to -max_*
+  linear:
+    x:
+      has_velocity_limits: true
+      max_velocity: 0.75 # m/s
+      has_acceleration_limits: true
+      max_acceleration: 0.3 # m/s^2
+  angular:
+    z:
+      has_velocity_limits: true
+      max_velocity: 1.745329 # rad/s
+      has_acceleration_limits: true
+      max_acceleration: 1.745329 # rad/s^2

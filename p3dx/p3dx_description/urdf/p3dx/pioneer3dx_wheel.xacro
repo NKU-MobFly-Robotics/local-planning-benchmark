@@ -73,6 +73,16 @@
       <material value="Gazebo/Black"/>
     </gazebo>
 
+    <transmission name="${side}_wheel_trans" type="SimpleTransmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${side}_wheel_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+      <joint name="${side}_hub_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+    </transmission>
+
   </xacro:macro>
 
 </robot>

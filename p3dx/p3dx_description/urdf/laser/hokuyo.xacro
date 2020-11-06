@@ -34,10 +34,13 @@
     <gazebo reference="${name}">
       <sensor name="laser" type="ray">
         <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>40</update_rate>
+        <always_on>1</always_on>
         <ray>
           <scan>
             <horizontal>
-              <!-- Hokuyo UTM-LX30 -->
+              <!-- Hokuyo UTM-30LX -->
               <resolution>1</resolution>
               <max_angle>2.356194</max_angle>              <!-- 135 Degree -->
               <min_angle>-2.356194</min_angle>              <!-- -135 Degree -->
@@ -45,15 +48,15 @@
             </horizontal>
           </scan>
           <range>
-            <min>0.10</min>
+            <min>0.1</min>
             <max>30.0</max>
             <resolution>0.01</resolution>
           </range>
           <noise>
             <type>gaussian</type>
             <!-- Noise parameters based on published spec for Hokuyo laser achieving 
-						    "+-30mm" accuracy at range < 10m. A mean of 0.0m and stddev of 0.01m will 
-						    put 99.7% of samples within 0.03m of the true reading. -->
+                "+-30mm" accuracy at range < 10m. A mean of 0.0m and stddev of 0.01m will 
+                put 99.7% of samples within 0.03m of the true reading. -->
             <mean>0.0</mean>
             <stddev>0.01</stddev>
           </noise>
@@ -61,13 +64,9 @@
 
         <plugin name="laser" filename="libgazebo_ros_laser.so">
           <robotNamespace></robotNamespace>
-          <topicName>/scan</topicName>
+          <topicName>scan</topicName>
           <frameName>${name}</frameName>
         </plugin>
-
-        <always_on>1</always_on>
-        <update_rate>40</update_rate>
-        <visualize>true</visualize>
       </sensor>
     </gazebo>
   </xacro:macro>
