@@ -2,12 +2,16 @@
 
 **MRPB** is developed aiming to evaluate mobile robot local planning approaches in a unified and comprehensive way. 
 It contains a rich set of elaborately designed simulation scenarios, for instance, complex maze environments, 
-partiall unknown office-like environments, dynamic pedestrians, and so on. 
+partially unknown office-like environments, dynamic pedestrians, and so on. 
 More features and challenging scenarios will come in the future :wink:.
+
+The following video shows navigation in static, partially unknown, and dynamic scenarios 
+<a href="https://youtu.be/EFnWGGFVxoQ" target="_blank"><div align=center><img src="https://upload-images.jianshu.io/upload_images/9115568-09461a7b58f21087.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" 
+alt="MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Planning Approaches" width="512" height="288" border="10" /></div></a>
 
 To run this project in minutes, check [Quick Start](#1-Quick-Start). Please refer to README.md in each folder to learn more about the contents.
 
-Please kindly star :star: this project if it helps you. We take great efforts to develope and maintain it :grin::grin:.
+Please kindly star :star: this project if it helps you. We take great efforts to develop and maintain it :grin::grin:.
 
 ## Table of Contents
 
@@ -51,7 +55,7 @@ $ make
 ```
 After that, a library named "libActorCollisionsPlugin.so" will be generated in the build directory. Please update the reference path of "libActorCollisionsPlugin.so" in the xxx_dynamic.world files in the gazebo_world/world directory before you use the dynamic world models. For example, open office02_dynamic.world and use "ctrl+F" to find "libActorCollisionsPlugin.so". Then, replace the value of "filename" with the absolute path of "libActorCollisionsPlugin.so" in your build directory of actor_collisions. Each animated actor needs to call this plugin. Therefore, please check all the reference paths of this plugin in the dynamic world models.
 
-Furthermore, we have tested that dynamic pedestrians based on this plugin can be swept by the laser rangefinder only in Gazebo9 and above. The default version of Gazebo in ROS Kinetic is Gazebo7. So if you use ROS Kinetic, please uninstall Gazebo7 and install Gazebo9
+Furthermore, we have tested that dynamic pedestrians based on this plugin can be swept by the laser rangefinder only in Gazebo9 and above. The default version of Gazebo in ROS Kinetic is Gazebo7. Therefore, if you use ROS Kinetic, please uninstall Gazebo7 and install Gazebo9
 ```
 1. Uninstall Gazebo7
   $ sudo apt-get remove --purge ros-kinetic-gazebo* 
@@ -73,8 +77,8 @@ Furthermore, we have tested that dynamic pedestrians based on this plugin can be
   $ gazebo -v
 ```
 
-## Acknowledgements
-  We use [**Actor Collisions Plugin**](https://github.com/osrf/gazebo/tree/gazebo11/examples/plugins/actor_collisions) to give dynamic pedestrians collision properties and [**Pioneer-3dx Simulator**](https://github.com/BruceChanJianLe/p3dx) to simulate Pionner 3-DX mobile robot in Gazebo.
+## Acknowledgement
+  We use [**Actor Collisions Plugin**](https://github.com/osrf/gazebo/tree/gazebo11/examples/plugins/actor_collisions) to give dynamic pedestrians collision properties and [**Pioneer-3dx Simulator**](https://github.com/BruceChanJianLe/p3dx) to simulate Pioneer 3-DX mobile robot in Gazebo.
 
-## Licence
+## License
 The source code is released under [CC0-1.0](https://choosealicense.com/licenses/cc0-1.0/) license.
