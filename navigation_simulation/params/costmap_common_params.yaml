@@ -6,7 +6,6 @@ robot_radius: 0.17
 footprint_padding: 0.0
 
 transform_tolerance: 0.2
-map_type: costmap
 
 always_send_full_costmap: true
 
