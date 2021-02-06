@@ -10,6 +10,11 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
 
+  <!-- Robot pose -->
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="yaw" default="1.570796"/>
+
   <!-- Running gazebo simulation platform -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)" />
@@ -20,6 +25,11 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <include file="$(find p3dx_gazebo)/launch/spawn_p3dx.launch"/>
+  <!-- Spawn p3dx mobile robot -->
+  <include file="$(find p3dx_gazebo)/launch/spawn_p3dx.launch">
+    <arg name="x" value="$(arg x)" />
+    <arg name="y" value="$(arg y)" />
+    <arg name="yaw" value="$(arg yaw)" />
+  </include>
 
 </launch>
