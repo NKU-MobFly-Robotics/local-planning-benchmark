@@ -43,6 +43,9 @@
   <!--  ****** Start Gazebo *****  -->
   <include file="$(find p3dx_gazebo)/launch/p3dx_gazebo.launch">
     <arg name="world_name" value="$(find gazebo_world)/world/shopping_mall.world"/>
+    <arg name="x" value="0.0" />
+    <arg name="y" value="0.0" />
+    <arg name="yaw" value="1.570796" />
   </include>
 
   <!--  **************** Visualisation ****************  -->
