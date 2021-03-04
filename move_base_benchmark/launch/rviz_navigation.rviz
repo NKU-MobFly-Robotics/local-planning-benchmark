@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Local Planner1/LocalCostmap1
       Splitter Ratio: 0.605095983
     Tree Height: 772
   - Class: rviz/Selection
@@ -75,12 +74,12 @@ Visualization Manager:
           Shaft Length: 0.230000004
           Shaft Radius: 0.00999999978
           Shape: Arrow (Flat)
-          Topic: /move_base/TebLocalPlannerROS/teb_poses
+          Topic: /move_base_benchmark/TebLocalPlannerROS/teb_poses
           Unreliable: false
           Value: true
         - Class: rviz/Marker
           Enabled: true
-          Marker Topic: /move_base/TebLocalPlannerROS/teb_markers
+          Marker Topic: /move_base_benchmark/TebLocalPlannerROS/teb_markers
           Name: TebMarker
           Namespaces:
             {}
@@ -106,7 +105,7 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /move_base/TebLocalPlannerROS/local_plan
+          Topic: /move_base_benchmark/TebLocalPlannerROS/local_plan
           Unreliable: false
           Value: true
         - Alpha: 0.400000006
@@ -115,7 +114,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: LocalCostmap
-          Topic: /move_base/local_costmap/costmap
+          Topic: /move_base_benchmark/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -143,7 +142,7 @@ Visualization Manager:
           Radius: 0.0299999993
           Shaft Diameter: 0.100000001
           Shaft Length: 0.100000001
-          Topic: /move_base/TebLocalPlannerROS/global_plan
+          Topic: /move_base_benchmark/GlobalPlanner/plan
           Unreliable: false
           Value: true
         - Alpha: 0.699999988
@@ -152,7 +151,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: GlobalCostmap
-          Topic: /move_base/global_costmap/costmap
+          Topic: /move_base_benchmark/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -263,7 +262,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 26.4891357
+      Distance: 32.7494888
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

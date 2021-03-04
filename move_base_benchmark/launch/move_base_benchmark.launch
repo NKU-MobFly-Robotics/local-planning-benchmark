@@ -13,12 +13,12 @@
   <param name="/use_sim_time" value="true"/>
 
   <!--  ************** Navigation ***************  -->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find navigation_simulation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find navigation_simulation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find navigation_simulation)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find navigation_simulation)/params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find navigation_simulation)/params/teb_local_planner_params.yaml" command="load" />
+  <node pkg="move_base_benchmark" type="move_base_benchmark" respawn="false" name="move_base_benchmark" output="screen">
+    <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find move_base_benchmark)/params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find move_base_benchmark)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find move_base_benchmark)/params/teb_local_planner_params.yaml" command="load" />
 
     <param name="base_global_planner" value="global_planner/GlobalPlanner" />
     <param name="planner_frequency" value="1.0" />
@@ -33,7 +33,7 @@
   </node>
 
   <!--  ****** Maps *****  -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find navigation_simulation)/maps/shopping_mall/map.yaml" output="screen">
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find move_base_benchmark)/maps/shopping_mall/map.yaml" output="screen">
     <param name="frame_id" value="map"/>
   </node>
 
@@ -49,6 +49,6 @@
   </include>
 
   <!--  **************** Visualisation ****************  -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigation_simulation)/launch/rviz_navigation.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find move_base_benchmark)/launch/rviz_navigation.rviz"/>
 
 </launch>
