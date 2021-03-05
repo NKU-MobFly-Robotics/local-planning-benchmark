@@ -35,7 +35,7 @@
 * Author: Eitan Marder-Eppstein
 *         Mike Phillips (put the planner in its own thread)
 *********************************************************************/
-#include "move_base_benchmark.h"
+#include "move_base_benchmark/move_base_benchmark.h"
 #include <move_base_msgs/RecoveryStatus.h>
 #include <cmath>
 
@@ -62,6 +62,9 @@ namespace move_base_benchmark {
     ros::NodeHandle nh;
 
     recovery_trigger_ = PLANNING_R;
+
+    //path to save the recorded data
+    private_nh.param("log_filename", log_filename_, std::string("log.txt"));
 
     //get some parameters that will be global to the move base node
     std::string global_planner, local_planner;
@@ -126,6 +129,9 @@ namespace move_base_benchmark {
     //create the ros wrapper for the controller's costmap... and initializer a pointer we'll use with the underlying map
     controller_costmap_ros_ = new costmap_2d::Costmap2DROS("local_costmap", tf_);
     controller_costmap_ros_->pause();
+
+    //init the odom helper to receive the robot's velocity from odom messages
+    odom_helper_.setOdomTopic("odom");
 
     //create a local planner
     try {
@@ -670,6 +676,9 @@ namespace move_base_benchmark {
     last_oscillation_reset_ = ros::Time::now();
     planning_retries_ = 0;
 
+    //open the file to record the navigation data
+    log_file_ = fopen(log_filename_.c_str(), "w+");
+
     ros::NodeHandle n;
     while(n.ok())
     {
@@ -772,6 +781,9 @@ namespace move_base_benchmark {
       if(r.cycleTime() > ros::Duration(1 / controller_frequency_) && state_ == CONTROLLING)
         ROS_WARN("Control loop missed its desired rate of %.4fHz... the loop actually took %.4f seconds", controller_frequency_, r.cycleTime().toSec());
     }
+
+    //close the file
+    fclose(log_file_);
 
     //wake up the planner thread so that it can exit cleanly
     lock.lock();
@@ -899,6 +911,25 @@ namespace move_base_benchmark {
         
         {
          boost::unique_lock<costmap_2d::Costmap2D::mutex_t> lock(*(controller_costmap_ros_->getCostmap()->getMutex()));
+
+        //get robot pose
+        tf::Stamped<tf::Pose> robot_pose;
+        controller_costmap_ros_->getRobotPose(robot_pose);
+    
+        //get robot velocity
+        tf::Stamped<tf::Pose> robot_vel_tf;
+        odom_helper_.getRobotVel(robot_vel_tf);
+
+        //compute the distance to the closest obstacle
+        double obs_dist = obs_dist_calculator_.compute(controller_costmap_ros_);
+
+        //log navigation data
+        fprintf(log_file_, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f ", ros::WallTime::now().toSec(), 
+                robot_pose.getOrigin().x(), robot_pose.getOrigin().y(),tf::getYaw(robot_pose.getRotation()), 
+                robot_vel_tf.getOrigin().x(), tf::getYaw(robot_vel_tf.getRotation()), obs_dist);
+
+        //start timing
+        ros::WallTime start_t = ros::WallTime::now();
         
         if(tc_->computeVelocityCommands(cmd_vel)){
           ROS_DEBUG_NAMED( "move_base", "Got a valid command from the local planner: %.3lf, %.3lf, %.3lf",
@@ -934,6 +965,10 @@ namespace move_base_benchmark {
             lock.unlock();
           }
         }
+
+        //end timing
+        ros::WallDuration t_diff = ros::WallTime::now() - start_t;
+        fprintf(log_file_, "%.3f\n", t_diff.toSec());
         }
 
         break;

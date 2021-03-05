@@ -27,7 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "move_base_benchmark.h"
+#include "move_base_benchmark/move_base_benchmark.h"
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "move_base_benchmark");

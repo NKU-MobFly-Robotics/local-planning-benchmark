@@ -33,7 +33,7 @@ $ catkin_make
 and start a simulation (run in a new terminals): 
 ```
 $ source ~/catkin_ws/devel/setup.bash
-$ roslaunch navigation_simulation robot_diff_drive_in_gazebo.launch
+$ roslaunch move_base_benchmark move_base_benchmark.launch
 ```
 You will find the costmap and the Pioneer 3-DX mobile robot in ```Rviz```. You can select goals for the robot to reach using the ```2D Nav Goal``` tool.
 

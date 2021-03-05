@@ -57,7 +57,9 @@
 #include <std_srvs/Empty.h>
 
 #include <dynamic_reconfigure/server.h>
+#include <base_local_planner/odometry_helper_ros.h>
 #include "move_base/MoveBaseConfig.h"
+#include "move_base_benchmark/obs_dist_calculator.h"
 
 namespace move_base_benchmark {
   //typedefs to help us out with the action server so that we don't hace to type so much
@@ -230,6 +232,12 @@ namespace move_base_benchmark {
       move_base::MoveBaseConfig default_config_;
       bool setup_, p_freq_change_, c_freq_change_;
       bool new_global_plan_;
+
+      //helper to log the navigation data
+      ObsDistCalculator obs_dist_calculator_;
+      FILE* log_file_;
+      std::string log_filename_;
+      base_local_planner::OdometryHelperRos odom_helper_;
   };
 }  // namespace move_base_benchmark
 #endif  // LOCAL_PLANNING_BENCHMARK_MOVE_BASE_BENCHMARK_H
