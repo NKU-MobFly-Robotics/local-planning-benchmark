@@ -20,12 +20,34 @@ int main(int argc, char** argv)
 
   move_base_msgs::MoveBaseGoal goal;
 
-  // we'll send a goal to the robot to move 1 meter forward
-  goal.target_pose.header.frame_id = "base_link";
+  ros::NodeHandle private_nh("~");
+  std::string global_frame;
+  private_nh.param("global_costmap/global_frame", global_frame, std::string("/map"));
+
+  double goal_pose_x, goal_pose_y, goal_pose_a;
+  if (!private_nh.getParam("goal_pose_x", goal_pose_x))
+  {
+    ROS_ERROR("Goal pose is unavailable");
+    return -1;
+  }
+  if (!private_nh.getParam("goal_pose_y", goal_pose_y))
+  {
+    ROS_ERROR("Goal pose is unavailable");
+    return -1;
+  }
+  if (!private_nh.getParam("goal_pose_a", goal_pose_a))
+  {
+    ROS_ERROR("Goal pose is unavailable");
+    return -1;
+  }
+
+  // we'll send a goal to the robot to move
+  goal.target_pose.header.frame_id = global_frame;
   goal.target_pose.header.stamp = ros::Time::now();
 
-  goal.target_pose.pose.position.x = 1.0;
-  goal.target_pose.pose.orientation.w = 1.0;
+  goal.target_pose.pose.position.x = goal_pose_x;
+  goal.target_pose.pose.position.y = goal_pose_y;
+  goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(goal_pose_a);
 
   ROS_INFO("Sending goal");
   ac.sendGoal(goal);
@@ -33,9 +55,9 @@ int main(int argc, char** argv)
   ac.waitForResult();
 
   if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    ROS_INFO("Hooray, the base moved 1 meter forward");
+    ROS_INFO("The base reached the goal successfully");
   else
-    ROS_INFO("The base failed to move forward 1 meter for some reason");
+    ROS_INFO("The base failed to reach the goal for some reason");
 
   return 0;
 }

@@ -31,6 +31,12 @@ find_package(catkin REQUIRED
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN3_DEFINITIONS})
 
+# Ceres
+find_package(Ceres REQUIRED)
+
+# OpenCV
+find_package(OpenCV REQUIRED)
+
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
   cfg/MoveBase.cfg
@@ -49,15 +55,20 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
+  ${CERES_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 # move_base_benchmark
 add_library(move_base_benchmark
   src/move_base_benchmark.cpp
+  src/obs_dist_calculator.cpp
 )
 target_link_libraries(move_base_benchmark
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
+  ${CERES_LIBRARIES}
+  ${OpenCV_LIBS}
 )
 add_dependencies(move_base_benchmark ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
