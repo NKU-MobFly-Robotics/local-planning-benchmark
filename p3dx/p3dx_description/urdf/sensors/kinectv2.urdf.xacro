@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<robot name="sensor_kinectv2"
+  xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="cam_px" value="-0.087" />
+  <xacro:property name="cam_py" value="-0.0125" />
+  <xacro:property name="cam_pz" value="0.2870" />
+  <xacro:property name="cam_or" value="0" />
+  <xacro:property name="cam_op" value="0" />
+  <xacro:property name="cam_oy" value="0" />
+
+
+  <xacro:macro name="sensor_kinectv2" params="prefix parent meshes base:=true *origin cloudCutoffMax:=5.0 far:=8.0">
+
+    <joint name="${prefix}_rgb_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${prefix}_rgb_base_link" />
+    </joint>
+    <link name="${prefix}_rgb_base_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+
+    <joint name="${prefix}_rgb_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+      <parent link="${prefix}_rgb_base_link" />
+      <child link="${prefix}_rgb_optical_frame" />
+    </joint>
+    <link name="${prefix}_rgb_optical_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_joint" type="fixed">
+      <!--<origin xyz="-0.031 ${-cam_py} -0.016" rpy="0 0 0"/>-->      <!-- with base -->
+      <xacro:if value="${base}">
+        <origin xyz="-0.031 ${-cam_py} -0.016" rpy="0 0 0"/>
+      </xacro:if>
+      <xacro:unless value="${base}">
+        <origin xyz="-0.031 ${-cam_py} -0.016" rpy="0 0 0"/>
+      </xacro:unless>
+
+      <parent link="${prefix}_rgb_base_link"/>
+      <child link="${prefix}_link"/>
+    </joint>
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
+        <geometry>
+          <xacro:if value="${base}">
+            <mesh filename="${meshes}/kinect.dae"/>
+          </xacro:if>
+          <xacro:unless value="${base}">
+            <mesh filename="${meshes}/kinectv2_nobase.dae"/>
+          </xacro:unless>
+        </geometry>
+      </visual>
+      <!-- with base -->
+      <collision>
+        <xacro:if value="${base}">
+          <origin xyz="-0.015 0.0 0.03225" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.0943 0.25 0.0645"/>
+          </geometry>
+        </xacro:if>
+        <xacro:unless value="${base}">
+          <origin xyz="-0.015 0.0 0.020" rpy="0 0 0"/>
+          <geometry>
+            <box size="0.0943 0.25 0.045"/>
+          </geometry>
+        </xacro:unless>
+      </collision>
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <!-- The fixed joints & links below are usually published by static_transformers launched by the OpenNi launch
+       files. However, for Gazebo simulation we need them, so we add them here.
+       (Hence, don't publish them additionally!) -->
+    <joint name="${prefix}_depth_joint" type="fixed">
+      <origin xyz="0 ${2 * -cam_py} 0" rpy="0 0 0" />
+      <parent link="${prefix}_rgb_base_link" />
+      <child link="${prefix}_depth_link" />
+    </joint>
+    <link name="${prefix}_depth_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+    <joint name="${prefix}_depth_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+      <parent link="${prefix}_depth_link" />
+      <child link="${prefix}_depth_optical_frame" />
+    </joint>
+    <link name="${prefix}_depth_optical_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <!-- Kinect sensor for simulation -->
+    <sensor_kinectv2_gazebo cloudCutoffMax="${cloudCutoffMax}" far="${far}"/>
+
+  </xacro:macro>
+
+
+  <xacro:macro name="sensor_kinectv2_gazebo" params="cloudCutoffMax:=5.0 far:=8.0">
+
+    <gazebo reference="${prefix}_link">
+      <sensor type="depth" name="${prefix}_sensor">
+        <always_on>true</always_on>
+        <update_rate>20.0</update_rate>
+        <camera>
+          <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.05</near>
+            <far>${far}</far>
+          </clip>
+        </camera>
+        <plugin name="${prefix}_controller" filename="libgazebo_ros_openni_kinect.so">
+          <cameraName>${prefix}</cameraName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>10</updateRate>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <frameName>/${prefix}_depth_optical_frame</frameName>
+          <baseline>0.1</baseline>
+          <distortion_k1>0.0</distortion_k1>
+          <distortion_k2>0.0</distortion_k2>
+          <distortion_k3>0.0</distortion_k3>
+          <distortion_t1>0.0</distortion_t1>
+          <distortion_t2>0.0</distortion_t2>
+          <pointCloudCutoff>0.4</pointCloudCutoff>
+          <pointCloudCutoffMax>${cloudCutoffMax}</pointCloudCutoffMax>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

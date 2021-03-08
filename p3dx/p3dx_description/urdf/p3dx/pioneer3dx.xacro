@@ -8,14 +8,16 @@
   <xacro:include filename="$(find p3dx_description)/urdf/p3dx/pioneer3dx_body.xacro"/>
   <xacro:pioneer3dx_body name="chassis" parent="base_link" meshes="package://p3dx_description/meshes/p3dx"/>
 
-  <!-- Laser  -->
-  <!-- <xacro:include filename="$(find p3dx_description)/urdf/laser/hokuyo.xacro"/>
-  <xacro:laser name="laser" parent="chassis" xyz="0.12 0 0.26" rpy="0 0 0" meshes="package://p3dx_description/meshes/laser"/> -->
+  <!-- Hokuyo UTM-30LX -->
+  <xacro:include filename="$(find p3dx_description)/urdf/sensors/hokuyo_utm30lx.urdf.xacro" />
+  <xacro:element xacro:name="sensor_hokuyo_utm30lx" prefix="hokuyo_utm30lx" parent="chassis" meshes="package://p3dx_description/meshes/sensors" min_angle="-1.5708" max_angle="1.5708" >
+    <origin xyz="0.16 0 0.1" rpy="0 0 0"/>
+  </xacro:element>
 
-  <!-- Hokuyo utm30lx -->
-  <xacro:include filename="$(find p3dx_description)/urdf/laser/hokuyo_utm30lx.urdf.xacro" />
-  <xacro:element xacro:name="sensor_hokuyo_utm30lx" prefix="sensor_hokuyo_utm30lx" parent="chassis" meshes="package://p3dx_description/meshes/laser" >
-    <origin xyz="0.12 0 0.235" rpy="0 0 0"/>
+  <!-- Kinect v2 -->
+  <xacro:include filename="$(find p3dx_description)/urdf/sensors/kinectv2.urdf.xacro" />
+  <xacro:element xacro:name="sensor_kinectv2" prefix="kinectv2" parent="chassis" meshes="package://p3dx_description/meshes/sensors" >
+    <origin xyz="0.17 0 0.285" rpy="0 0 0"/>
   </xacro:element>
 
 </robot>
