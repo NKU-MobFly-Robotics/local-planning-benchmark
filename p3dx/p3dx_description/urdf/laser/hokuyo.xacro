@@ -21,7 +21,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="${meshes}/hokuyo.dae"/>
+          <mesh filename="${meshes}/hokuyo_utm_30lx.dae"/>
         </geometry>
       </visual>
       <inertial>

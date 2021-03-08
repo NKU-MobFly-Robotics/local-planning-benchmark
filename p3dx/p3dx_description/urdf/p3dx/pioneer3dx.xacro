@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="pioneer3dx">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="pioneer3dx">
 
   <!-- Import Rviz colors -->
   <xacro:include filename="$(find p3dx_description)/urdf/materials.xacro" />
@@ -9,7 +9,13 @@
   <xacro:pioneer3dx_body name="chassis" parent="base_link" meshes="package://p3dx_description/meshes/p3dx"/>
 
   <!-- Laser  -->
-  <xacro:include filename="$(find p3dx_description)/urdf/laser/hokuyo.xacro"/>
-  <xacro:laser name="laser" parent="chassis" xyz="0.12 0 0.26" rpy="0 0 0" meshes="package://p3dx_description/meshes/laser"/>
+  <!-- <xacro:include filename="$(find p3dx_description)/urdf/laser/hokuyo.xacro"/>
+  <xacro:laser name="laser" parent="chassis" xyz="0.12 0 0.26" rpy="0 0 0" meshes="package://p3dx_description/meshes/laser"/> -->
+
+  <!-- Hokuyo utm30lx -->
+  <xacro:include filename="$(find p3dx_description)/urdf/laser/hokuyo_utm30lx.urdf.xacro" />
+  <xacro:element xacro:name="sensor_hokuyo_utm30lx" prefix="sensor_hokuyo_utm30lx" parent="chassis" meshes="package://p3dx_description/meshes/laser" >
+    <origin xyz="0.12 0 0.235" rpy="0 0 0"/>
+  </xacro:element>
 
 </robot>
