@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
   ros::NodeHandle private_nh("~");
   std::string global_frame;
-  private_nh.param("global_costmap/global_frame", global_frame, std::string("/map"));
+  private_nh.param("global_costmap/global_frame", global_frame, std::string("map"));
 
   double goal_pose_x, goal_pose_y, goal_pose_a;
   if (!private_nh.getParam("goal_pose_x", goal_pose_x))

@@ -53,7 +53,7 @@
 #include <costmap_2d/costmap_2d.h>
 #include <nav_msgs/GetPlan.h>
 
-#include <pluginlib/class_loader.h>
+#include <pluginlib/class_loader.hpp>
 #include <std_srvs/Empty.h>
 
 #include <dynamic_reconfigure/server.h>
@@ -89,7 +89,7 @@ namespace move_base_benchmark {
        * @param name The name of the action
        * @param tf A reference to a TransformListener
        */
-      MoveBase(tf::TransformListener& tf);
+      MoveBase(tf2_ros::Buffer& tf);
 
       /**
        * @brief  Destructor - Cleans up
@@ -166,6 +166,8 @@ namespace move_base_benchmark {
 
       bool isQuaternionValid(const geometry_msgs::Quaternion& q);
 
+      bool getRobotPose(geometry_msgs::PoseStamped& global_pose, costmap_2d::Costmap2DROS* costmap);
+
       double distance(const geometry_msgs::PoseStamped& p1, const geometry_msgs::PoseStamped& p2);
 
       geometry_msgs::PoseStamped goalToGlobalFrame(const geometry_msgs::PoseStamped& goal_pose_msg);
@@ -175,7 +177,7 @@ namespace move_base_benchmark {
        */
       void wakePlanner(const ros::TimerEvent& event);
 
-      tf::TransformListener& tf_;
+      tf2_ros::Buffer& tf_;
 
       MoveBaseActionServer* as_;
 
@@ -189,7 +191,7 @@ namespace move_base_benchmark {
       std::vector<std::string> recovery_behavior_names_;
       unsigned int recovery_index_;
 
-      tf::Stamped<tf::Pose> global_pose_;
+      geometry_msgs::PoseStamped global_pose_;
       double planner_frequency_, controller_frequency_, inscribed_radius_, circumscribed_radius_;
       double planner_patience_, controller_patience_;
       int32_t max_planning_retries_;
@@ -199,6 +201,7 @@ namespace move_base_benchmark {
       ros::Subscriber goal_sub_;
       ros::ServiceServer make_plan_srv_, clear_costmaps_srv_;
       bool shutdown_costmaps_, clearing_rotation_allowed_, recovery_behavior_enabled_;
+      bool make_plan_clear_costmap_, make_plan_add_unreachable_goal_;
       double oscillation_timeout_, oscillation_distance_;
 
       MoveBaseState state_;

@@ -22,7 +22,7 @@ double ObsDistCalculator::compute(costmap_2d::Costmap2DROS* costmap_ros) const
   const unsigned char* charmap = costmap->getCharMap();
 
   // Get robot pose
-  tf::Stamped<tf::Pose> robot_pose;
+  geometry_msgs::PoseStamped robot_pose;
   costmap_ros->getRobotPose(robot_pose);
 
   // compute Euclidean distance map
@@ -57,8 +57,8 @@ double ObsDistCalculator::compute(costmap_2d::Costmap2DROS* costmap_ros) const
 
   ceres::BiCubicInterpolator<ceres::Grid2D<double, 1, false> > interpolator(grid);
 
-  double r = (robot_pose.getOrigin().x() - origin_x) / resolution;
-  double c = (robot_pose.getOrigin().y() - origin_y) / resolution;
+  double r = (robot_pose.pose.position.x - origin_x) / resolution;
+  double c = (robot_pose.pose.position.y - origin_y) / resolution;
 
   double dist = 0.0;
   interpolator.Evaluate(r, c, &dist);
