@@ -10973,10 +10973,10 @@
       <static>1</static>
     </model>
     <state world_name='default'>
-      <sim_time>264 143000000</sim_time>
-      <real_time>277 62279600</real_time>
-      <wall_time>1596767458 344889133</wall_time>
-      <iterations>264143</iterations>
+      <sim_time>354 439000000</sim_time>
+      <real_time>90 489280112</real_time>
+      <wall_time>1615881332 659888595</wall_time>
+      <iterations>90296</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -10988,7 +10988,7 @@
         </link>
       </model>
       <model name='office02'>
-        <pose frame=''>-0.075105 -0.58893 0 0 -0 0</pose>
+        <pose frame=''>-0.0751 -0.58893 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_0'>
           <pose frame=''>-13.3822 7.11478 0 0 0 -1.5708</pose>
@@ -11975,7 +11975,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>9.90742 -20.0218 33.817 0 0.955643 1.95619</pose>
+        <pose frame=''>1.38586 -0.170876 36.9974 -2e-06 1.5698 1.57217</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

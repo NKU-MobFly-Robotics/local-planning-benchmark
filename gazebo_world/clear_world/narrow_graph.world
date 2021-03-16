@@ -1,5 +1,13 @@
 <sdf version='1.6'>
   <world name='default'>
+    <plugin name='gazebo_occupancy_map' filename='libgazebo_grid_map_plugin.so'>
+      <map_resolution>0.05</map_resolution>   <!-- in meters, optional, default 0.1 -->
+      <map_height>0.3</map_height>            <!-- in meters, optional, default 0.3 -->
+      <map_size_x>14</map_size_x>             <!-- in meters, optional, default 10 -->
+      <map_size_y>14</map_size_y>             <!-- in meters, optional, default 10 -->
+      <init_robot_x>0</init_robot_x>          <!-- x coordinate in meters, optional, default 0 -->
+      <init_robot_y>0</init_robot_y>          <!-- y coordinate in meters, optional, default 0 -->
+    </plugin>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose frame=''>0 0 10 0 -0 0</pose>
@@ -2519,10 +2527,10 @@
       <static>1</static>
     </model>
     <state world_name='default'>
-      <sim_time>195 110000000</sim_time>
-      <real_time>50 277924338</real_time>
-      <wall_time>1615881194 423461301</wall_time>
-      <iterations>50059</iterations>
+      <sim_time>145 51000000</sim_time>
+      <real_time>173 181761204</real_time>
+      <wall_time>1599102322 739997264</wall_time>
+      <iterations>145051</iterations>
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -2534,7 +2542,7 @@
         </link>
       </model>
       <model name='xiaozhai'>
-        <pose frame=''>0.097063 0.192571 0 0 -0 0</pose>
+        <pose frame=''>0.097063 0.192575 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_100'>
           <pose frame=''>-0.279449 1.03156 0 0 0 -1.5708</pose>
@@ -2867,7 +2875,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0.999647 -1.9214 22.7429 0 1.4858 1.57223</pose>
+        <pose frame=''>-0.496683 0.645599 3.87951 0 1.4618 1.72423</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
