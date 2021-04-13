@@ -5,46 +5,51 @@ It contains a rich set of elaborately designed simulation scenarios, for instanc
 partially unknown office-like environments, dynamic pedestrians, and so on. 
 More features and challenging scenarios will come in the future :wink:.
 
-The following video shows navigation in static, partially unknown, and dynamic scenarios 
+The following video shows navigation simulation in static, partially unknown, and dynamic scenarios 
 <a href="https://youtu.be/X-N0Sf0-ODY" target="_blank"><div align=center><img src="https://upload-images.jianshu.io/upload_images/9115568-09461a7b58f21087.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" 
 alt="MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Planning Approaches" width="512" height="288" border="10" /></div></a>
 
 To run this project in minutes, check [Quick Start](#1-Quick-Start). Please refer to README.md in each folder to learn more about the contents.
 
-Please kindly star :star: this project if it helps you. We take great efforts to develop and maintain it :grin::grin:.
+Please cite the following paper if you use this project in your research: 
+> J. Wen, X. Zhang, Q. Bi, Z. Pan, Y. Feng, J. Yuan, and Y. Fang, "MRPB 1.0: A unified benchmark for the evaluation of mobile robot local planning approaches", ***2021 IEEE International Conference on Robotics and Automation (ICRA)***, accepted. [[paper]](https://arxiv.org/abs/2011.00491)
 
 ## Table of Contents
 
 * [Quick Start](#1-Quick-Start)
-* [Paper](#2-Paper)
-* [Setup](#3-Setup)
+* [Setup](#2-Setup)
 
 ## 1. Quick Start
 
-The project is developed and tested in Ubuntu 16.04 with ROS Kinetic. Run the following commands to setup:
+The project has been tested on Ubuntu 16.04 (ROS Kinetic) and 18.04 (ROS Melodic). In the following we will take the Kinetic version as the example. The navigation simulation is performed by the powerful ROS navigation stack, wherein two local planners of DWA and TEB are tested. Therefore, please install these packages first:
 
 ```
 $ sudo apt-get install ros-kinetic-navigation ros-kinetic-teb-local-planner
+```
+The distance to the closest obstacle is computed by performing bicubic interpolation on top of the Euclidean distance grid (EDG). EDG is constructed by an efficient distance transform algorithm implemented in OpenCV, and the bicubic interpolation is implemented in [Google's Ceres solver](http://ceres-solver.org/). Therefore, please install Ceres solver following the official [installation tutorial](http://ceres-solver.org/installation.html). 
+
+After the above preparation, please create and initialize a ROS workspace. We assume that your workspace is named catkin_ ws. Then, run the following commands to clone this repo and build it:
+
+```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/NKU-MobFly-Robotics/local-planning-benchmark.git
 $ cd ../
 $ catkin_make
 ```
-and start a simulation (run in a new terminals): 
+If you are using Ubuntu 18.04, please switch to the melodic-devel branch:
+```
+$ git branch -a
+$ git checkout melodic-devel
+```
+
+Finally, open a new terminal and start a simulation: 
 ```
 $ source ~/catkin_ws/devel/setup.bash
 $ roslaunch move_base_benchmark move_base_benchmark.launch
 ```
-You will find the costmap and the Pioneer 3-DX mobile robot in ```Rviz```. You can select goals for the robot to reach using the ```2D Nav Goal``` tool.
+Currently, we create a node named simple_navigation_goals to set the goal for the robot to reach. You can also select goals for the robot using the ```2D Nav Goal``` tool in ```RViz```.
 
-## 2. Paper
-
-Please cite the following paper if you use this project in your research: 
-
-- [__MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Planning Approaches__](https://arxiv.org/abs/2011.00491), Jian Wen, Xuebo Zhang,
-Qingchen Bi, Zhangchao Pan, Yanghe Feng, Jing Yuan, and Yongchun Fang, 2020, _arXiv:2011.00491_.
-
-## 3. Setup
+## 2. Setup
 
 We use [**Actor Collisions Plugin**](https://github.com/osrf/gazebo/tree/gazebo11/examples/plugins/actor_collisions) to give dynamic pedestrians collision properties, so that they can be swept by the laser rangefinder. From the actor_collisions directory
 ```
