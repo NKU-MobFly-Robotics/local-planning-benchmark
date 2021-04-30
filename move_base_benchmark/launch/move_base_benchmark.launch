@@ -11,7 +11,7 @@
 
   <!--  ************** Global Parameters ***************  -->
   <param name="/use_sim_time" value="true"/>
-  <arg name="gui" default="false"/>
+  <arg name="gui" default="true"/>
 
   <!-- Initial pose -->
   <arg name="initial_pose_x" default="0.0"/>
@@ -56,13 +56,17 @@
   <!--  ****** Localization *****  -->
   <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
 
-  <!--  ****** Start Gazebo *****  -->
-  <include file="$(find p3dx_gazebo)/launch/p3dx_gazebo.launch">
+  <!--  ****** Start Gazebo and launch world model *****  -->
+  <include file="$(find gazebo_world)/launch/world_launch.launch">
     <arg name="world_name" value="$(arg world_filename)"/>
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+
+  <!-- Spawn p3dx mobile robot -->
+  <include file="$(find p3dx_gazebo)/launch/spawn_p3dx.launch">
     <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
     <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
     <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
-    <arg name="gui" value="$(arg gui)" />
   </include>
 
   <!--  **************** Visualisation ****************  -->

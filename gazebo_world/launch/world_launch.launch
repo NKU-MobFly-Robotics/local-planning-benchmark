@@ -1,6 +1,6 @@
 <launch>
   <!-- Parameters -->
-  <arg name="world_name" value="$(find gazebo_world)/world/narrow_graph.world"/>
+  <arg name="world_name" default="$(find gazebo_world)/world/narrow_graph.world"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
