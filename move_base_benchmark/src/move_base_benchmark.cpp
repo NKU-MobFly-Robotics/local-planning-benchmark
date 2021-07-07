@@ -691,7 +691,10 @@ namespace move_base_benchmark {
     //open the file to record the navigation data
     log_file_ = fopen(log_filename_.c_str(), "w+");
     if (log_file_ == NULL)
+    {
       ROS_ERROR("Failed to open the log file");
+      return;
+    }
 
     ros::NodeHandle n;
     while(n.ok())

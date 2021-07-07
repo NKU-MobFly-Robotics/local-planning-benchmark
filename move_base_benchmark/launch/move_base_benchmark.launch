@@ -12,17 +12,11 @@
   <!--  ************** Global Parameters ***************  -->
   <param name="/use_sim_time" value="true"/>
   <arg name="gui" default="true"/>
-  <arg name="global_frame" default="map"/>
-  <arg name="robot_base_frame" default="base_link"/>
 
   <!-- Initial pose -->
   <arg name="initial_pose_x" default="0.0"/>
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="1.5708"/>
-  <!-- Goal pose -->
-  <arg name="goal_pose_x" default="0.0"/>
-  <arg name="goal_pose_y" default="5.0"/>
-  <arg name="goal_pose_a" default="1.5708"/>
 
   <!-- Filename -->
   <arg name="log_filename" default="$(find move_base_benchmark)/launch/log.txt" />
@@ -34,8 +28,8 @@
   <node pkg="move_base_benchmark" type="move_base_benchmark" respawn="false" name="move_base_benchmark" output="screen">
     <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find move_base_benchmark)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find move_base_benchmark)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find move_base_benchmark)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find move_base_benchmark)/params/teb_local_planner_params.yaml" command="load" />
     <param name="global_costmap/global_frame" value="$(arg global_frame)" />
     <param name="local_costmap/global_frame" value="$(arg global_frame)" />
@@ -49,7 +43,7 @@
     <param name="controller_patience" value="15.0" />
 
     <param name="log_filename" value="$(arg log_filename)" />
-    <remap from="cmd_vel" to="move_base/cmd_vel"/>
+    <remap from="cmd_vel" to="RosAria/cmd_vel"/>
     <remap from="odom" to="RosAria/odom"/>
   </node>
 
