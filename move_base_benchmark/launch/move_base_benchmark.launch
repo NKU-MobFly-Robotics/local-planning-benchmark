@@ -12,6 +12,8 @@
   <!--  ************** Global Parameters ***************  -->
   <param name="/use_sim_time" value="true"/>
   <arg name="gui" default="true"/>
+  <arg name="global_frame" default="map"/>
+  <arg name="robot_base_frame" default="base_link"/>
 
   <!-- Initial pose -->
   <arg name="initial_pose_x" default="0.0"/>
@@ -23,7 +25,7 @@
   <arg name="goal_pose_a" default="1.5708"/>
 
   <!-- Filename -->
-  <arg name="log_filename" default="$(find move_base_benchmark)/log/log.txt" />
+  <arg name="log_filename" default="$(find move_base_benchmark)/launch/log.txt" />
   <arg name="map_filename" default="$(find move_base_benchmark)/maps/shopping_mall/map.yaml" />
   <arg name="world_filename" default="$(find gazebo_world)/world/shopping_mall.world" />
   <arg name="global_frame" value="map" />

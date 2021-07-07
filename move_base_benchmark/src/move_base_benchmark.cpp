@@ -690,6 +690,8 @@ namespace move_base_benchmark {
 
     //open the file to record the navigation data
     log_file_ = fopen(log_filename_.c_str(), "w+");
+    if (log_file_ == NULL)
+      ROS_ERROR("Failed to open the log file");
 
     ros::NodeHandle n;
     while(n.ok())
@@ -936,7 +938,7 @@ namespace move_base_benchmark {
 
         //log navigation data
         fprintf(log_file_, "%.3f %.3f %.3f %.3f %.3f %.3f %.3f ", ros::WallTime::now().toSec(), 
-                robot_pose.pose.position.x, robot_pose.pose.position.y,tf2::getYaw(robot_pose.pose.orientation), 
+                robot_pose.pose.position.x, robot_pose.pose.position.y, tf2::getYaw(robot_pose.pose.orientation), 
                 robot_vel_tf.pose.position.x, tf2::getYaw(robot_vel_tf.pose.orientation), obs_dist);
 
         //start timing
