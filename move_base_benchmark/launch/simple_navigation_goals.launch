@@ -1,0 +1,18 @@
+<launch>
+
+  <!--  ************** Global Parameters ***************  -->
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- Goal pose -->
+  <arg name="goal_pose_x" default="9.904"/>
+  <arg name="goal_pose_y" default="8.226"/>
+  <arg name="goal_pose_a" default="-3.139"/>
+
+  <!--  **************** Sending goal ****************  -->
+  <node pkg="move_base_benchmark" type="simple_navigation_goals" name="simple_navigation_goals" output="screen" >
+    <param name="goal_pose_x" value="$(arg goal_pose_x)" />
+    <param name="goal_pose_y" value="$(arg goal_pose_y)" />
+    <param name="goal_pose_a" value="$(arg goal_pose_a)" />
+  </node>
+
+</launch>

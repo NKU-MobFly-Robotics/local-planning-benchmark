@@ -17,23 +17,22 @@
   <arg name="initial_pose_x" default="0.0"/>
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="1.5708"/>
-  <!-- Goal pose -->
-  <arg name="goal_pose_x" default="0.0"/>
-  <arg name="goal_pose_y" default="5.0"/>
-  <arg name="goal_pose_a" default="1.5708"/>
 
   <!-- Filename -->
-  <arg name="log_filename" default="$(find move_base_benchmark)/log/log.txt" />
+  <arg name="log_filename" default="$(find move_base_benchmark)/launch/log.txt" />
   <arg name="map_filename" default="$(find move_base_benchmark)/maps/shopping_mall/map.yaml" />
   <arg name="world_filename" default="$(find gazebo_world)/world/shopping_mall.world" />
+  <arg name="global_frame" value="map" />
 
   <!--  ************** Navigation ***************  -->
   <node pkg="move_base_benchmark" type="move_base_benchmark" respawn="false" name="move_base_benchmark" output="screen">
     <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find move_base_benchmark)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find move_base_benchmark)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find move_base_benchmark)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find move_base_benchmark)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find move_base_benchmark)/params/teb_local_planner_params.yaml" command="load" />
+    <param name="global_costmap/global_frame" value="$(arg global_frame)" />
+    <param name="local_costmap/global_frame" value="$(arg global_frame)" />
 
     <param name="base_global_planner" value="global_planner/GlobalPlanner" />
     <param name="planner_frequency" value="1.0" />
@@ -44,17 +43,19 @@
     <param name="controller_patience" value="15.0" />
 
     <param name="log_filename" value="$(arg log_filename)" />
-    <remap from="/cmd_vel" to="/RosAria/cmd_vel"/>
-    <remap from="/odom" to="/RosAria/odom"/>
+    <remap from="cmd_vel" to="RosAria/cmd_vel"/>
+    <remap from="odom" to="RosAria/odom"/>
   </node>
 
   <!--  ****** Maps *****  -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_filename)" output="screen">
-    <param name="frame_id" value="map"/>
+    <param name="frame_id" value="$(arg global_frame)"/>
   </node>
 
   <!--  ****** Localization *****  -->
-  <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
+  <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" >
+    <param name="global_frame_id" value="$(arg global_frame)" />
+  </node>
 
   <!--  ****** Start Gazebo and launch world model *****  -->
   <include file="$(find gazebo_world)/launch/world_launch.launch">
@@ -71,12 +72,5 @@
 
   <!--  **************** Visualisation ****************  -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find move_base_benchmark)/launch/rviz_navigation.rviz"/>
-
-  <!--  **************** Sending goal ****************  -->
-  <node pkg="move_base_benchmark" type="simple_navigation_goals" name="simple_navigation_goals" output="screen" >
-    <param name="goal_pose_x" value="$(arg goal_pose_x)" />
-    <param name="goal_pose_y" value="$(arg goal_pose_y)" />
-    <param name="goal_pose_a" value="$(arg goal_pose_a)" />
-  </node>
 
 </launch>

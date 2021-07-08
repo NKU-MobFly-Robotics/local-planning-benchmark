@@ -2,6 +2,7 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <tf/tf.h>
+#include <chrono>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseActionClient;
 
@@ -22,7 +23,7 @@ int main(int argc, char** argv)
 
   ros::NodeHandle private_nh("~");
   std::string global_frame;
-  private_nh.param("global_costmap/global_frame", global_frame, std::string("/map"));
+  private_nh.param("global_costmap/global_frame", global_frame, std::string("map"));
 
   double goal_pose_x, goal_pose_y, goal_pose_a;
   if (!private_nh.getParam("goal_pose_x", goal_pose_x))
@@ -49,6 +50,8 @@ int main(int argc, char** argv)
   goal.target_pose.pose.position.y = goal_pose_y;
   goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(goal_pose_a);
 
+  const auto start_t = std::chrono::high_resolution_clock::now();
+
   ROS_INFO("Sending goal");
   ac.sendGoal(goal);
 
@@ -58,6 +61,10 @@ int main(int argc, char** argv)
     ROS_INFO("The base reached the goal successfully");
   else
     ROS_INFO("The base failed to reach the goal for some reason");
+
+  const auto end_t = std::chrono::high_resolution_clock::now();
+  const std::chrono::duration<double> timediff = end_t - start_t;
+  ROS_INFO("Total runtime=%f secs", timediff.count());
 
   return 0;
 }

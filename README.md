@@ -12,7 +12,7 @@ alt="MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Plan
 To run this project in minutes, check [Quick Start](#1-Quick-Start). Please refer to README.md in each folder to learn more about the contents.
 
 Please cite the following paper if you use this project in your research: 
-> J. Wen, X. Zhang, Q. Bi, Z. Pan, Y. Feng, J. Yuan, and Y. Fang, "MRPB 1.0: A unified benchmark for the evaluation of mobile robot local planning approaches", ***2021 IEEE International Conference on Robotics and Automation (ICRA)***, accepted. [[paper]](https://arxiv.org/abs/2011.00491)
+> J. Wen, X. Zhang, Q. Bi, Z. Pan, Y. Feng, J. Yuan, and Y. Fang, "MRPB 1.0: A unified benchmark for the evaluation of mobile robot local planning approaches", ***2021 IEEE International Conference on Robotics and Automation (ICRA)***, 2021, pp. 8238-8244. [[paper]](https://arxiv.org/abs/2011.00491)
 
 ## Table of Contents
 
@@ -48,7 +48,12 @@ Finally, open a new terminal and start a simulation:
 $ source ~/catkin_ws/devel/setup.bash
 $ roslaunch move_base_benchmark move_base_benchmark.launch
 ```
-Currently, we create a node named simple_navigation_goals to set the goal for the robot to reach. You can also select goals for the robot using the ```2D Nav Goal``` tool in ```RViz```.
+Open another terminal and send the goal for the robot:
+```
+$ source ~/catkin_ws/devel/setup.bash
+$ roslaunch move_base_benchmark simple_navigation_goals.launch
+```
+You can also select goals for the robot using the ```2D Nav Goal``` tool in ```RViz```.
 
 ## 2. Setup
 
