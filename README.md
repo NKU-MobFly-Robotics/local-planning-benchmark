@@ -24,7 +24,7 @@ Please cite the following paper if you use this project in your research:
 The project has been tested on Ubuntu 16.04 (ROS Kinetic) and 18.04 (ROS Melodic). We highly recommend using Ubuntu 18.04 since Ubuntu 16.04 will no longer be supported after April 2021. In the following we will take ROS Melodic version as the example. The navigation simulation is performed by the powerful ROS navigation stack, wherein two local planners of DWA and TEB are tested. Therefore, please install these packages first:
 
 ```
-$ sudo apt-get install ros-melodic-navigation ros-melodic-teb-local-planner
+$ sudo apt install ros-melodic-navigation ros-melodic-teb-local-planner
 ```
 The distance to the closest obstacle is computed by performing bicubic interpolation on top of the Euclidean distance grid (EDG). EDG is constructed by an efficient distance transform algorithm implemented in OpenCV, and bicubic interpolation is implemented in [Google's Ceres solver](http://ceres-solver.org/). Therefore, please install Ceres solver following the official [installation tutorial](http://ceres-solver.org/installation.html). 
 
@@ -69,20 +69,20 @@ After that, a library named "libActorCollisionsPlugin.so" will be generated in t
 Furthermore, we have tested that dynamic pedestrians based on this plugin can be swept by the laser rangefinder only in Gazebo9 and above. The default version of Gazebo in ROS Kinetic is Gazebo7. Therefore, if you use ROS Kinetic, please uninstall Gazebo7 and install Gazebo9
 ```
 1. Uninstall Gazebo7
-  $ sudo apt-get remove --purge ros-kinetic-gazebo* 
-  $ sudo apt-get remove --purge libgazebo* 
-  $ sudo apt-get remove --purge gazebo* 
-  $ sudo apt-get remove --purge gazebo-*
+  $ sudo apt remove --purge ros-kinetic-gazebo* 
+  $ sudo apt remove --purge libgazebo* 
+  $ sudo apt remove --purge gazebo* 
+  $ sudo apt remove --purge gazebo-*
 
 2. Add the source and keys 
   $ sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
   $ wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 
 3. Install Gazebo9
-  $ sudo apt-get update
-  $ sudo apt-get install gazebo9
-  $ sudo apt-get install libgazebo9-dev
-  $ sudo apt-get install ros-kinetic-gazebo9-*
+  $ sudo apt update
+  $ sudo apt install gazebo9
+  $ sudo apt install libgazebo9-dev
+  $ sudo apt install ros-kinetic-gazebo9-*
 
 4. Check the version of Gazebo
   $ gazebo -v
