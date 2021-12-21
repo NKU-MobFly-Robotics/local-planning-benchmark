@@ -38,6 +38,7 @@
 #include "move_base_benchmark/move_base_benchmark.h"
 #include <move_base_msgs/RecoveryStatus.h>
 #include <cmath>
+#include <chrono>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
@@ -945,7 +946,7 @@ namespace move_base_benchmark {
                 robot_vel_tf.pose.position.x, tf2::getYaw(robot_vel_tf.pose.orientation), obs_dist);
 
         //start timing
-        ros::WallTime start_t = ros::WallTime::now();
+        const auto start_t = std::chrono::high_resolution_clock::now();
 
         if(tc_->computeVelocityCommands(cmd_vel)){
           ROS_DEBUG_NAMED( "move_base", "Got a valid command from the local planner: %.3lf, %.3lf, %.3lf",
@@ -983,8 +984,9 @@ namespace move_base_benchmark {
         }
 
         //end timing
-        ros::WallDuration t_diff = ros::WallTime::now() - start_t;
-        fprintf(log_file_, "%.3f\n", t_diff.toSec());
+        const auto end_t = std::chrono::high_resolution_clock::now();
+        const std::chrono::duration<double> time_diff = end_t - start_t;
+        fprintf(log_file_, "%.3f\n", time_diff.count());
         }
 
         break;
