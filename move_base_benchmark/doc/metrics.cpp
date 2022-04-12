@@ -1,8 +1,7 @@
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <cmath>
-
-const double SAFETY_DISTANCE = 0.5;  // [m]
 
 struct Data
 {
@@ -55,7 +54,7 @@ double computeVelocitySmoothness(const std::vector<Data>& data_log)
   return mean;
 }
 
-double computeSafety(const std::vector<Data>& data_log)
+double computeSafety(const std::vector<Data>& data_log, const double& safety_distance)
 {
   double time_diff = data_log.back().time_stamp - data_log.front().time_stamp;
   double start_t = -1;
@@ -64,7 +63,7 @@ double computeSafety(const std::vector<Data>& data_log)
 
   for (size_t i = 0; i < data_log.size(); i++)
   {
-    if (data_log[i].obs_dist < SAFETY_DISTANCE)
+    if (data_log[i].obs_dist < safety_distance)
     {
       if (start_t == -1)
         start_t = data_log[i].time_stamp;
@@ -89,9 +88,9 @@ double computeSafety(const std::vector<Data>& data_log)
 
 int main(int argc, char* argv[])
 {
-  if (argc != 2)
+  if (argc != 3)
   {
-    printf("Please input the path of the log file.\n");
+    printf("Please input the path to the log file and value of safety distance [m].\n");
     return 1;
   }
 
@@ -101,6 +100,7 @@ int main(int argc, char* argv[])
     printf("Could not open the log file\n");
     return 1;
   }
+  double safety_distance = std::atof(argv[2]);
 
   std::vector<Data> data_log;
   Data data;
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
   }
   fclose(file);
 
-  double safety = computeSafety(data_log);
+  double safety = computeSafety(data_log, safety_distance);
   printf("Safety = %.2f[%%]\n", safety * 1e2);
 
   double motion_efficiency = computeMotionEfficiency(data_log);
