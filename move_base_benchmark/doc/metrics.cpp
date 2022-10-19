@@ -54,7 +54,7 @@ double computeVelocitySmoothness(const std::vector<Data>& data_log)
   return mean;
 }
 
-double computeSafety(const std::vector<Data>& data_log, const double& safety_distance)
+double computeSafety(const std::vector<Data>& data_log, const double safety_distance)
 {
   double time_diff = data_log.back().time_stamp - data_log.front().time_stamp;
   double start_t = -1;
