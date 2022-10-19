@@ -1,17 +1,17 @@
 # MRPB: Mobile Robot Local Planning Benchmark
 
-**MRPB** is developed aiming to evaluate mobile robot local planning approaches in a unified and comprehensive way. 
-It contains a rich set of elaborately designed simulation scenarios, for instance, complex maze environments, 
-partially unknown office-like environments, dynamic pedestrians, and so on. 
+**MRPB** is developed aiming to evaluate mobile robot local planning approaches in a unified and comprehensive way.
+It contains a rich set of elaborately designed simulation scenarios, for instance, complex maze environments,
+partially unknown office-like environments, dynamic pedestrians, and so on.
 More features and challenging scenarios will come in the future :wink:.
 
-The following video shows navigation simulation in static, partially unknown, and dynamic scenarios 
-<a href="https://youtu.be/X-N0Sf0-ODY" target="_blank"><div align=center><img src="https://upload-images.jianshu.io/upload_images/9115568-09461a7b58f21087.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" 
+The following video shows navigation simulation in static, partially unknown, and dynamic scenarios
+<a href="https://youtu.be/X-N0Sf0-ODY" target="_blank"><div align=center><img src="https://upload-images.jianshu.io/upload_images/9115568-09461a7b58f21087.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
 alt="MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Planning Approaches" width="512" height="288" border="10" /></div></a>
 
 To run this project in minutes, check [Quick Start](#1-Quick-Start). Please refer to README.md in each folder to learn more about the contents.
 
-Please cite the following paper if you use this project in your research: 
+Please cite the following paper if you use this project in your research:
 > J. Wen, X. Zhang, Q. Bi, Z. Pan, Y. Feng, J. Yuan, and Y. Fang, "MRPB 1.0: A unified benchmark for the evaluation of mobile robot local planning approaches", ***2021 IEEE International Conference on Robotics and Automation (ICRA)***, 2021, pp. 8238-8244. [[paper]](https://ieeexplore.ieee.org/document/9561901)
 
 ## Table of Contents
@@ -26,7 +26,7 @@ The project has been tested on Ubuntu 16.04 (ROS Kinetic) and 18.04 (ROS Melodic
 ```
 $ sudo apt install ros-melodic-navigation ros-melodic-teb-local-planner
 ```
-The distance to the closest obstacle is computed by performing bicubic interpolation on top of the Euclidean distance grid (EDG). EDG is constructed by an efficient distance transform algorithm implemented in OpenCV, and bicubic interpolation is implemented in [Google's Ceres solver](http://ceres-solver.org/). Therefore, please install Ceres solver following the official [installation tutorial](http://ceres-solver.org/installation.html). 
+The distance to the closest obstacle is computed by performing bicubic interpolation on top of the Euclidean distance grid (EDG). EDG is constructed by an efficient distance transform algorithm implemented in OpenCV, and bicubic interpolation is implemented in [Google's Ceres solver](http://ceres-solver.org/). Therefore, please install Ceres solver following the official [installation tutorial](http://ceres-solver.org/installation.html).
 
 After the above preparation, please create and initialize a ROS workspace. We assume that your workspace is named catkin_ ws. Then, run the following commands to clone this repo and build it:
 
@@ -43,7 +43,7 @@ $ git branch -a
 $ git checkout kinetic-devel
 ```
 
-Finally, open a new terminal and start a simulation: 
+Finally, open a new terminal and start a simulation:
 ```
 $ source ~/catkin_ws/devel/setup.bash
 $ roslaunch move_base_benchmark move_base_benchmark.launch
@@ -69,12 +69,12 @@ After that, a library named "libActorCollisionsPlugin.so" will be generated in t
 Furthermore, we have tested that dynamic pedestrians based on this plugin can be swept by the laser rangefinder only in Gazebo9 and above. The default version of Gazebo in ROS Kinetic is Gazebo7. Therefore, if you use ROS Kinetic, please uninstall Gazebo7 and install Gazebo9
 ```
 1. Uninstall Gazebo7
-  $ sudo apt remove --purge ros-kinetic-gazebo* 
-  $ sudo apt remove --purge libgazebo* 
-  $ sudo apt remove --purge gazebo* 
+  $ sudo apt remove --purge ros-kinetic-gazebo*
+  $ sudo apt remove --purge libgazebo*
+  $ sudo apt remove --purge gazebo*
   $ sudo apt remove --purge gazebo-*
 
-2. Add the source and keys 
+2. Add the source and keys
   $ sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
   $ wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 

@@ -30,15 +30,16 @@
 #include "move_base_benchmark/move_base_benchmark.h"
 #include <tf2_ros/transform_listener.h>
 
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "move_base_benchmark");
   tf2_ros::Buffer buffer(ros::Duration(10));
   tf2_ros::TransformListener tf(buffer);
 
-  move_base_benchmark::MoveBase move_base( buffer );
+  move_base_benchmark::MoveBase move_base(buffer);
 
-  //ros::MultiThreadedSpinner s;
+  // ros::MultiThreadedSpinner s;
   ros::spin();
 
-  return(0);
+  return (0);
 }
