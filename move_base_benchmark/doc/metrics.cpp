@@ -20,12 +20,12 @@ double computeComputationalEfficiency(const std::vector<Data>& data_log)
   size_t N = data_log.size();
   double mean = 0.0;
 
-  for (size_t i = 0; i < N; i++)
+  for (size_t i = 0; i < N; ++i)
   {
     mean += data_log[i].time_cost;
   }
 
-  mean /= N;
+  mean /= static_cast<double>(N);
 
   return mean;
 }
@@ -42,26 +42,26 @@ double computeVelocitySmoothness(const std::vector<Data>& data_log)
   size_t N = data_log.size();
   double mean = 0.0;
 
-  for (size_t i = 0; i < N - 1; i++)
+  for (size_t i = 0; i < N - 1; ++i)
   {
     double acc = fabs(data_log[i + 1].v - data_log[i].v) / (data_log[i + 1].time_stamp - data_log[i].time_stamp);
 
     mean += acc;
   }
 
-  mean /= (N - 1);
+  mean /= static_cast<double>(N - 1);
 
   return mean;
 }
 
-double computeSafety(const std::vector<Data>& data_log, const double& safety_distance)
+double computeSafety(const std::vector<Data>& data_log, const double safety_distance)
 {
   double time_diff = data_log.back().time_stamp - data_log.front().time_stamp;
   double start_t = -1;
   double end_t = -1;
   double sum = 0.0;
 
-  for (size_t i = 0; i < data_log.size(); i++)
+  for (size_t i = 0; i < data_log.size(); ++i)
   {
     if (data_log[i].obs_dist < safety_distance)
     {
