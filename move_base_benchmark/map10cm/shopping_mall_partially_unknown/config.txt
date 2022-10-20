@@ -1,0 +1,26 @@
+# Test 1
+<arg name="initial_pose_x" default="-16.859"/>
+<arg name="initial_pose_y" default="-5.387"/>
+<arg name="initial_pose_a" default="0.000"/>
+
+<arg name="goal_pose_x" default="-3.210"/>
+<arg name="goal_pose_y" default="2.566"/>
+<arg name="goal_pose_a" default="3.138"/>
+
+# Test 2
+<arg name="initial_pose_x" default="15.808"/>
+<arg name="initial_pose_y" default="-15.490"/>
+<arg name="initial_pose_a" default="1.558"/>
+
+<arg name="goal_pose_x" default="14.844"/>
+<arg name="goal_pose_y" default="-4.220"/>
+<arg name="goal_pose_a" default="0.000"/>
+
+# Test 3
+<arg name="initial_pose_x" default="11.565"/>
+<arg name="initial_pose_y" default="16.311"/>
+<arg name="initial_pose_a" default="3.138"/>
+
+<arg name="goal_pose_x" default="-2.729"/>
+<arg name="goal_pose_y" default="-4.015"/>
+<arg name="goal_pose_a" default="0.000"/>

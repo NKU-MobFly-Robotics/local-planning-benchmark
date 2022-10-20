@@ -1,0 +1,8 @@
+# Test 1
+<arg name="initial_pose_x" default="-0.013"/>
+<arg name="initial_pose_y" default="-3.913"/>
+<arg name="initial_pose_a" default="1.577"/>
+
+<arg name="goal_pose_x" default="-0.059"/>
+<arg name="goal_pose_y" default="9.302"/>
+<arg name="goal_pose_a" default="1.578"/>
