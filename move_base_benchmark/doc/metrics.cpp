@@ -31,7 +31,9 @@
 
 #include <cassert>
 #include <cmath>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 struct Data {
@@ -45,7 +47,7 @@ struct Data {
   double time_cost;
 };
 
-double computeComputationalEfficiency(const std::vector<Data>& data_log) {
+double ComputeComputationalEfficiency(const std::vector<Data>& data_log) {
   assert(!data_log.empty());
   double mean = 0.0;
   for (size_t i = 0; i < data_log.size(); ++i) {
@@ -55,92 +57,99 @@ double computeComputationalEfficiency(const std::vector<Data>& data_log) {
   return mean;
 }
 
-double computeMotionEfficiency(const std::vector<Data>& data_log) {
+double ComputeMotionEfficiency(const std::vector<Data>& data_log) {
   assert(!data_log.empty());
   return data_log.back().timestamp - data_log.front().timestamp;
 }
 
-double computeVelocitySmoothness(const std::vector<Data>& data_log) {
+double ComputeVelocitySmoothness(const std::vector<Data>& data_log) {
   assert(data_log.size() > 1);
   double mean = 0.0;
   for (size_t i = 0; i < data_log.size() - 1; ++i) {
-    double acc = fabs(data_log[i + 1].v - data_log[i].v) /
-                 (data_log[i + 1].timestamp - data_log[i].timestamp);
-    mean += acc;
+    mean += fabs(data_log[i + 1].v - data_log[i].v) /
+            (data_log[i + 1].timestamp - data_log[i].timestamp);
   }
   mean /= static_cast<double>(data_log.size() - 1);
   return mean;
 }
 
-double computeSafety(const std::vector<Data>& data_log,
+double ComputeSafety(const std::vector<Data>& data_log,
                      const double safety_distance) {
   assert(!data_log.empty());
   double diff = data_log.back().timestamp - data_log.front().timestamp;
-  double start_timestamp = -1;
-  double end_timestamp = -1;
+  int start_index = -1;
+  int end_index = -1;
   double sum = 0.0;
 
-  for (size_t i = 0; i < data_log.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(data_log.size()); ++i) {
     if (data_log[i].obs_dist < safety_distance) {
-      if (start_timestamp == -1) {
-        start_timestamp = data_log[i].timestamp;
+      if (start_index == -1) {
+        start_index = i;
       } else {
-        end_timestamp = data_log[i].timestamp;
+        end_index = i;
       }
     } else {
-      if (end_timestamp != -1) {
-        sum += (end_timestamp - start_timestamp);
+      if (end_index != -1) {
+        sum += data_log[end_index].timestamp - data_log[start_index].timestamp;
       }
 
       // reset
-      start_timestamp = -1;
-      end_timestamp = -1;
+      start_index = -1;
+      end_index = -1;
     }
   }
-
   return sum / diff;
 }
 
 int main(int argc, char* argv[]) {
   if (argc != 3) {
-    printf(
-        "Please input the path to the log file and value of safety distance "
-        "[m].\n");
+    std::cout << "Please input log path and the value of safety distance\n";
     return 1;
   }
 
-  FILE* file = fopen(argv[1], "r");
-  if (file == NULL) {
-    printf("Could not open the log file\n");
+  std::ifstream fin(argv[1]);
+  if (!fin.is_open()) {
+    std::cout << "Failed to open " << argv[1] << "\n";
     return 1;
   }
-  double safety_distance = std::atof(argv[2]);
 
   std::vector<Data> data_log;
-  Data data;
-  while (!feof(file)) {
-    if (fscanf(file, "%lf %lf %lf %lf %lf %lf %lf %lf\n", &data.timestamp,
-               &data.x, &data.y, &data.theta, &data.v, &data.omega,
-               &data.obs_dist, &data.time_cost) != 8) {
-      printf("The log file has incorrected format\n");
-      return 1;
+  std::string str;
+  std::vector<std::string> str_list;
+  while (std::getline(fin, str)) {
+    str_list.clear();
+    std::stringstream ss(str);
+    std::string tmp;
+    while (std::getline(ss, tmp, ' ')) {
+      str_list.push_back(tmp);
     }
-
-    data_log.push_back(data);
+    assert(str_list.size() == 8U);
+    Data data;
+    data.timestamp = std::stod(str_list[0]);
+    data.x = std::stod(str_list[1]);
+    data.y = std::stod(str_list[2]);
+    data.theta = std::stod(str_list[3]);
+    data.v = std::stod(str_list[4]);
+    data.omega = std::stod(str_list[5]);
+    data.obs_dist = std::stod(str_list[6]);
+    data.time_cost = std::stod(str_list[7]);
+    data_log.push_back(std::move(data));
   }
-  fclose(file);
+  fin.close();
 
-  double safety = computeSafety(data_log, safety_distance);
+  const double safety_distance = std::atof(argv[2]);
+  const double safety = ComputeSafety(data_log, safety_distance);
   std::cout << "Safety: " << safety * 1e2 << "%\n";
 
-  double motion_efficiency = computeMotionEfficiency(data_log);
+  const double motion_efficiency = ComputeMotionEfficiency(data_log);
   std::cout << "Motion efficiency: " << motion_efficiency << " secs\n";
 
-  double computational_efficiency = computeComputationalEfficiency(data_log);
+  const double computational_efficiency =
+      ComputeComputationalEfficiency(data_log);
   std::cout << "Computational efficiency: " << computational_efficiency * 1e3
             << " msecs\n";
 
-  double velocity_smoothness = computeVelocitySmoothness(data_log);
+  const double velocity_smoothness = ComputeVelocitySmoothness(data_log);
   std::cout << "Velocity smoothness: " << velocity_smoothness << " m/s^2\n";
 
   return 0;
