@@ -5,9 +5,9 @@ It contains a rich set of elaborately designed simulation scenarios, for instanc
 partially unknown office-like environments, dynamic pedestrians, and so on.
 More features and challenging scenarios will come in the future :wink:.
 
-The following video shows navigation simulation in static, partially unknown, and dynamic scenarios
-<a href="https://youtu.be/X-N0Sf0-ODY" target="_blank"><div align=center><img src="https://upload-images.jianshu.io/upload_images/9115568-09461a7b58f21087.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
-alt="MRPB 1.0: A Unified Benchmark for the Evaluation of Mobile Robot Local Planning Approaches" width="512" height="288" border="10" /></div></a>
+The following video shows navigation simulation in static, partially unknown, and dynamic scenarios.
+
+<a href="https://youtu.be/X-N0Sf0-ODY" target="_blank"><img src="fig/video_cover.png" alt="video_cover" width="50%" height="50%" /></a>
 
 To run this project in minutes, check [Quick Start](#1-Quick-Start). Please refer to README.md in each folder to learn more about the contents.
 
