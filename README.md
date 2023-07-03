@@ -21,28 +21,31 @@ Please cite the following paper if you use this project in your research:
 
 ## 1. Quick Start
 
-The project has been tested on Ubuntu 16.04 (ROS Kinetic) and 18.04 (ROS Melodic). We highly recommend using Ubuntu 18.04 since Ubuntu 16.04 will no longer be supported after April 2021. In the following we will take ROS Melodic version as the example. The navigation simulation is performed by the powerful ROS navigation stack, wherein two local planners of DWA and TEB are tested. Therefore, please install these packages first:
+The project has been tested on Ubuntu 20.04 (ROS Noetic), 18.04 (ROS Melodic), and 16.04 (ROS Kinetic). We highly recommend using Ubuntu 20.04 since Ubuntu 16.04/18.04 will no longer be supported. In the following we will take ROS Noetic version as the example. The navigation simulation is performed by the powerful ROS navigation stack, wherein two local planners of DWA and TEB are tested. Therefore, please install these packages first:
 
 ```
-$ sudo apt install ros-melodic-navigation ros-melodic-teb-local-planner
+$ sudo apt install ros-noetic-navigation ros-noetic-teb-local-planner
 ```
 The distance to the closest obstacle is computed by performing bicubic interpolation on top of the Euclidean distance grid (EDG). EDG is constructed by an efficient distance transform algorithm implemented in OpenCV, and bicubic interpolation is implemented in [Google's Ceres solver](http://ceres-solver.org/). Therefore, please install Ceres solver following the official [installation tutorial](http://ceres-solver.org/installation.html).
 
-After the above preparation, please create and initialize a ROS workspace. We assume that your workspace is named catkin_ ws. Then, run the following commands to clone this repo and build it:
+After the above preparation, please create and initialize a ROS workspace. We assume that your workspace is named catkin_ws. Then, run the following commands to clone this repo and its related dependent repo, namely, p3dx:
 
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/NKU-MobFly-Robotics/p3dx.git
 $ git clone https://github.com/NKU-MobFly-Robotics/local-planning-benchmark.git
-$ cd ../
-$ catkin_make
 ```
-If you are using Ubuntu 16.04, please switch to the kinetic-devel branch:
+If you are using Ubuntu 16.04/18.04, please switch to the kinetic/melodic-devel branch:
 ```
 $ git branch -a
-$ git checkout kinetic-devel
+$ git checkout kinetic-devel  # for Ubuntu 16.04
+$ git checkout melodic-devel  # for Ubuntu 18.04
 ```
-
+Then, build this repo by the following commands:
+```
+$ cd ~/catkin_ws/
+$ catkin_make -DCMAKE_BUILD_TYPE=Release
+```
 Finally, open a new terminal and start a simulation:
 ```
 $ source ~/catkin_ws/devel/setup.bash

@@ -133,6 +133,7 @@ MoveBase::MoveBase(tf2_ros::Buffer& tf)
   // initialize the global planner
   try {
     planner_ = bgp_loader_.createInstance(global_planner);
+    ROS_INFO("Created global_planner %s", global_planner.c_str());
     planner_->initialize(bgp_loader_.getName(global_planner),
                          planner_costmap_ros_);
   } catch (const pluginlib::PluginlibException& ex) {
